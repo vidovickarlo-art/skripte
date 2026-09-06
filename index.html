@@ -4,55 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funscript Extractor & Renamer</title>
-    <!-- Stabilno i ispravno učitavanje ZIP alata koje na GitHub Pages radi savršeno -->
-    <script src="https://cloudflare.com"></script>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f7f6; padding: 20px; text-align: center; color: #333; }
-        .container { max-width: 600px; background: white; padding: 30px; margin: 0 auto; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; margin-bottom: 10px; }
-        p { color: #7f8c8d; font-size: 15px; margin-bottom: 25px; }
-        .step-box { background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: left; }
-        .step-title { font-weight: bold; color: #2c3e50; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .file-input { margin: 10px 0; padding: 10px; border: 2px dashed #3498db; border-radius: 5px; background: #fff; cursor: pointer; display: block; width: 100%; box-sizing: border-box; font-size: 14px; }
-        button { background-color: #2ecc71; color: white; border: none; padding: 14px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 10px; font-weight: bold; }
-        button:hover { background-color: #27ae60; }
-        #status { margin-top: 20px; font-weight: bold; color: #2980b9; font-size: 16px; text-align: center; }
-        .output-section { text-align: left; margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
-        h3 { color: #2c3e50; margin-top: 15px; margin-bottom: 10px; }
-        .list-container { text-align: left; margin-top: 10px; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; margin-bottom: 8px; border-radius: 5px; border: 1px solid #eee; }
-        .item-name { font-size: 14px; word-break: break-all; padding-right: 10px; }
-        .download-btn { background-color: #3498db; color: white; border: none; width: auto; font-size: 14px; padding: 6px 15px; margin: 0; border-radius: 3px; cursor: pointer; font-weight: bold; }
-        .download-btn:hover { background-color: #2980b9; }
-        .skupno-btn { background-color: #e67e22; margin-bottom: 15px; }
-        .skupno-btn:hover { background-color: #d35400; }
-        hr { border: 0; height: 1px; background: #eee; margin: 20px 0; }
-    </style>
 </head>
 <body>
-
-<div class="container">
-    <h1>📝 Funscript Renamer</h1>
-    <p>Extract and rename your .funscript files instantly. Select your ZIP files and click process!</p>
-    
-    <div class="step-box">
-        <div class="step-title">1️⃣ Database Status</div>
-        <div id="dbStatus" style="color: #2ecc71; font-weight: bold;">✅ Connected! Internal database loaded.</div>
-    </div>
-
-    <div class="step-box">
-        <div class="step-title">2️⃣ Step 2: Select Your ZIP Files</div>
-        <input type="file" id="zipFiles" class="file-input" multiple accept=".zip">
-    </div>
-    
-    <button id="processBtn">Start Processing Files</button>
-    
-    <div id="status">⚡ System ready. Please select your ZIP files in Step 2.</div>
-    <div id="outputArea" class="output-section" style="display:none;"></div>
-</div>
-
 <script>
-// TVOJA BAZA PODATAKA
+/*! JSZip v3.10.1 - Stuart Knightley - http://stuartk.com */
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this).JSZip=e()}}(function(){return function e(t,n,r){function o(s,a){if(!n[s]){if(!t[s]){var p="function"==typeof require&&require;if(!a&&p)return p(s,!0);if(i)return i(s,!0);throw new Error("Cannot find module '"+s+"'")}var f=n[s]={exports:{}};t[s].call(f.exports,function(e){var n=t[s][e];return o(n?n:e)},f,f.exports,e,t,n,r)}return n[s].exports}for(var i="function"==typeof require&&require,s=0;s<r.length;s++)o(r[s]);return o}({1:[function(e,t,n){"use strict";var r=e("./utils"),o=e("./support"),i=e("./nodejsUtils");function s(e,t,n){this.name=e,this.dir=n.dir,this.date=n.date,this.comment=n.comment,this.unixPermissions=n.unixPermissions,this.dosPermissions=n.dosPermissions,this._data=t,this._dataBinary=n.binary,this.options={compression:n.compression,compressionOptions:n.compressionOptions}}s.prototype={internalStream:function(e){var t=null,n="string";try{if(!e)throw new Error("No output type specified.");n=e.toLowerCase();var i="string"===n||"text"===n;t="binarystring"===n||"text"===n||"string"===n?this._dataBinary?this._data:r.string2binary(this._data):this._data}catch(e){return(t=new(r.DelayedWorker)).error(e),t}return i},async:function(e,t){return this.internalStream(e).accumulate(t)}},t.exports=s},{"./nodejsUtils":14,"./support":30,"./utils":32}],2:[function(e,t,n){"use strict";var r=e("./object");function o(){this.files=Object.create(null),this.comment=null,this.root=""}o.prototype=r,t.exports=o},{"./object":15}],3:[function(e,t,n){"use strict";var r=e("./utils");function o(e,t){this.name=e,this.utcDate=t}o.prototype={rle:function(){return 0}},t.exports=o},{"./utils":32}],4:[function(e,t,n){"use strict";var r=e("./utils");function o(e){this.name=e}o.prototype={rle:function(){return 0}},t.exports=o},{"./utils":32}],5:[function(e,t,n){"use strict";var r=e("./utils");function o(e,t,n){this.name=e,this._data=t,this._dataBinary=n}o.prototype={rle:function(){return this._data.length}},t.exports=o},{"./utils":32}],6:[function(e,t,n){"use strict";var r=e("./utils");t.exports=function(e){if(!e)return new Uint8Array(0);if(e.buffer)return e;var t=new Uint8Array(e.length);return r.arrayCopy(e,0,t,0,e.length),t}},{"./utils":32}],7:[function(e,t,n){"use strict";var r=e("./utils");t.exports=function(e){return r.binary2string(e)}},{"./utils":32}],8:[function(e,t,n){"use strict";var r=e("./utils");t.exports=function(e){return r.string2binary(e)}},{"./utils":32}],9:[function(e,t,n){"use strict";var r=e("./utils");t.exports=function(e){return e}},{"./utils":32}],10:[function(e,t,n){"use strict";var r=e("./utils");t.exports=function(e){return r.binary2string(e)}},{"./utils":32}],11:[function(e,t,n){"use strict";var r=e("./utils");t.exports=function(e){return r.string2binary(e)}},{"./utils":32}],12:[function(e,t,n){"use strict";var r=e("./utils");t.exports=function(e){return e}},{"./utils":32}],13:[function(e,t,n){"use strict";var r=e("./utils"),o=e("./support");n.Uint8ArrayReader=e("./uint8ArrayReader"),n.StringReader=e("./stringReader")},{"./stringReader":28,"./support":30,"./uint8ArrayReader":31,"./utils":32}],14:[function(e,t,n){"use strict";t.exports={isNode:!1,newBuffer:function(){},allocBuffer:function(){}}},{}],15:[function(e,t,n){"use strict";var r=e("./utils"),o=e("./zipObject"),i=e("./support"),s=e("./defaults"),a=e("./compressedObject"),p=e("./zipEntries");n.file=function(e,t,n){var i=this;e=r.sanitizePath(e),n=r.extend({},s.fileOptions,n),n.date instanceof Date||(n.date=new Date),n.dir=!!n.dir;var a=r.getTypeOf(t);if(n.dir)t=null;else if("string"===a)n.binary=!1;else if("array"===a||"arraybuffer"===a||"uint8array"===a)n.binary=!0;else{if("object"!==a)throw new Error("Unsupported data format");t=null}var p=new o(e,t,n);return i.files[e]=p,i},n.folder=function(e){if(!e)return this;var t=this;e=r.sanitizePath(e);var n=r.extend({},s.folderOptions,{dir:!0});t.file(e,null,n);var o=new(e.constructor);return o.files=t.files,o.root=e,o},n.remove=function(e){e=r.sanitizePath(e);var t=this;return t.files[e]&&delete t.files[e],t},n.loadAsync=function(e,t){var n=this;return r.getTypeOf(e),p(e,t).then(function(e){n.comment=e.comment;for(var t=0;t<e.files.length;t++){var r=e.files[t];n.file(r.fileName,r.decompressed,{dir:r.dir,date:r.date,comment:r.fileComment,unixPermissions:r.unixPermissions,dosPermissions:r.dosPermissions,compression:r.compression})}return n})},n.generateAsync=function(e,t){var n=this;e=r.extend({},s.generateOptions,e);var o=new a(n.files,e,n.comment);return o.getContent().then(function(t){var n=e.type.toLowerCase();return"blob"===n?new Blob([t],{type:"application/zip"}):t})}},{"./compressedObject":1,"./defaults":11,"./support":30,"./utils":32,"./zipEntries":33,"./zipObject":35}],16:[function(e,t,n){"use strict";var r=e("./utils");function o(e){this.reader=e,this.leftover=[]}o.prototype={readChunk:function(e){var t=this.leftover;if(t.length>=e)return this.leftover=t.slice(e),t.slice(0,e);var n=this.reader.readChunk(e-t.length);if(!n)return null;var o=new Uint8Array(t.length+n.length);return r.arrayCopy(t,0,o,0,t.length),r.arrayCopy(n,0,o,t.length,n.length),this.leftover=[],o}},t.exports=o},{"./utils":32}],17:[function(e,t,n){"use strict";var r=e("../utils");function o(){}o.prototype={magic:r.string2binary("PK\x03\x04")},t.exports=o},{"../utils":32}]
+<script>
 const mapaImenaRaw = {
   "hsf01": "Massage Rooms Busty masseuse Rita tender loving care",
   "hsf02": "Sexy Twins Double The Pleasure For Mr. Big - Matilda Bae - EPORNER",
@@ -66,7 +23,6 @@ const mapaImenaRaw = {
   "hsf80": "Ripped my jeans and fucked me hard. How am I supposed to go home ImMayBee"
 };
 
-// Automatsko generiranje preostalih naziva do hsf100
 const mapaImena = {};
 for (let i = 1; i <= 100; i++) {
     let kljuc = "hsf" + String(i).padStart(2, '0');
@@ -77,123 +33,121 @@ for (let i = 1; i <= 100; i++) {
     }
 }
 
-document.getElementById('dbStatus').innerHTML = `✅ Connected! Loaded ${Object.keys(mapaImenaRaw).length} custom scripts.`;
+document.addEventListener("DOMContentLoaded", () => {
+    document.body.innerHTML = `
+        <div style="max-width: 600px; margin: 40px auto; font-family: Arial, sans-serif; text-align: center; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); color: #333;">
+            <h2>📝 Funscript Renamer</h2>
+            <p style="color: #7f8c8d;">Extract and rename your .funscript files instantly.</p>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 20px; border: 1px solid #e9ecef;">
+                <strong>1️⃣ Database Status:</strong> <span id="dbStatus" style="color: #2ecc71; font-weight: bold;">✅ Connected!</span>
+            </div>
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 20px; border: 1px solid #e9ecef;">
+                <strong>2️⃣ Select ZIP Files:</strong>
+                <input type="file" id="zipFiles" multiple accept=".zip" style="display: block; margin-top: 10px; width: 100%; box-sizing: border-box; padding: 10px; border: 2px dashed #3498db; background: #fff; border-radius: 5px; cursor: pointer;">
+            </div>
+            <button id="processBtn" style="background: #2ecc71; color: white; border: none; padding: 14px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer;">Start Processing Files</button>
+            <div id="status" style="margin-top: 20px; font-weight: bold; color: #2980b9;">⚡ System ready.</div>
+            <div id="outputArea" style="margin-top: 20px; display: none; text-align: left; border-top: 2px solid #eee; padding-top: 20px;"></div>
+        </div>
+    `;
 
-function preuzmiBlob(blob, nazivDatoteke) {
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = url;
-    a.download = nazivDatoteke;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-    }, 100);
-}
+    document.getElementById('dbStatus').innerHTML = `✅ Connected! Loaded ${Object.keys(mapaImenaRaw).length} custom scripts.`;
 
-document.getElementById('processBtn').addEventListener('click', async () => {
-    const files = document.getElementById('zipFiles').files;
-    const outputArea = document.getElementById('outputArea');
-    const statusDiv = document.getElementById('status');
-
-    if (files.length === 0) {
-        alert("Please select at least one ZIP file in Step 2.");
-        return;
+    function preuzmiBlob(blob, nazivDatoteke) {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = nazivDatoteke;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }, 100);
     }
-    
-    statusDiv.innerHTML = "Processing files, please wait...";
-    outputArea.innerHTML = "";
-    outputArea.style.display = "none";
-    
-    let rezultati = [];
-    let finalniZip = new JSZip();
-    let brojacUspjesnih = 0;
 
-    for (let file of files) {
-        const staroImeZipa = file.name;
-        const imeBezEkstenzije = staroImeZipa.substring(0, staroImeZipa.lastIndexOf('.')).trim().toLowerCase();
-        
-        if (mapaImena[imeBezEkstenzije]) {
-            let novoImeBaza = mapaImena[imeBezEkstenzije];
-            novoImeBaza = novoImeBaza.replace(/[<>:"/\\|?*]/g, "");
-            
-            try {
-                const zipSadrzaj = await JSZip.loadAsync(file);
-                let funscriptPodaci = null;
-                
-                for (let filename in zipSadrzaj.files) {
-                    if (filename.toLowerCase().endsWith('.funscript')) {
-                        funscriptPodaci = await zipSadrzaj.files[filename].async("blob");
-                        break;
+    document.getElementById('processBtn').addEventListener('click', async () => {
+        const files = document.getElementById('zipFiles').files;
+        const outputArea = document.getElementById('outputArea');
+        const statusDiv = document.getElementById('status');
+
+        if (files.length === 0) {
+            alert("Please select at least one ZIP file.");
+            return;
+        }
+
+        statusDiv.innerHTML = "Processing files, please wait...";
+        outputArea.innerHTML = "";
+        outputArea.style.display = "none";
+
+        let rezultati = [];
+        let finalniZip = new JSZip();
+        let brojacUspjesnih = 0;
+
+        for (let file of files) {
+            const staroImeZipa = file.name;
+            const imeBezEkstenzije = staroImeZipa.substring(0, staroImeZipa.lastIndexOf('.')).trim().toLowerCase();
+
+            if (mapaImena[imeBezEkstenzije]) {
+                let novoImeBaza = mapaImena[imeBezEkstenzije].replace(/[<>:"/\\|?*]/g, "");
+
+                try {
+                    const zipSadrzaj = await JSZip.loadAsync(file);
+                    let funscriptPodaci = null;
+
+                    for (let filename in zipSadrzaj.files) {
+                        if (filename.toLowerCase().endsWith('.funscript')) {
+                            funscriptPodaci = await zipSadrzaj.files[filename].async("blob");
+                            break;
+                        }
                     }
+
+                    if (funscriptPodaci) {
+                        brojacUspjesnih++;
+                        const puniNazivFunscripta = novoImeBaza + ".funscript";
+                        rezultati.push({ ime: puniNazivFunscripta, blob: funscriptPodaci });
+                        finalniZip.file(puniNazivFunscripta, funscriptPodaci);
+                    }
+                } catch (e) {
+                    console.error(e);
                 }
-                
-                if (funscriptPodaci) {
-                    brojacUspjesnih++;
-                    const puniNazivFunscripta = novoImeBaza + ".funscript";
-                    
-                    rezultati.push({
-                        ime: puniNazivFunscripta,
-                        blob: funscriptPodaci
-                    });
-                    
-                    finalniZip.file(puniNazivFunscripta, funscriptPodaci);
-                }
-            } catch (e) {
-                console.error("Error reading ZIP file: " + staroImeZipa, e);
             }
         }
-    }
-    
-    if (brojacUspjesnih > 0) {
-        statusDiv.innerHTML = `<span style='color: #2ecc71;'>✅ Successfully processed ${brojacUspjesnih} file(s)!</span>`;
-        outputArea.style.display = "block";
-        
-        if (rezultati.length > 1) {
-            outputArea.innerHTML += `<h3>📦 Bulk Download</h3>`;
-            const skupniGumb = document.createElement('button');
-            skupniGumb.className = "skupno-btn";
-            skupniGumb.innerText = "⚡ Download ALL at once (.ZIP package)";
-            skupniGumb.onclick = async () => {
-                const content = await finalniZip.generateAsync({type:"blob"});
-                preuzmiBlob(content, "all_scripts.zip");
-            };
-            outputArea.appendChild(skupniGumb);
-            outputArea.innerHTML += `<hr>`;
+
+        if (brojacUspjesnih > 0) {
+            statusDiv.innerHTML = "<span style='color: #2ecc71;'>✅ Successfully processed!</span>";
+            outputArea.style.display = "block";
+
+            if (rezultati.length > 1) {
+                const skupniGumb = document.createElement('button');
+                skupniGumb.style.cssText = "background: #e67e22; color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 5px; margin-bottom: 15px; cursor: pointer; font-size: 14px;";
+                skupniGumb.innerText = "⚡ Download ALL at once (.ZIP package)";
+                skupniGumb.onclick = async () => {
+                    const content = await finalniZip.generateAsync({ type: "blob" });
+                    preuzmiBlob(content, "all_scripts.zip");
+                };
+                outputArea.appendChild(skupniGumb);
+            }
+
+            rezultati.forEach(stavka => {
+                const row = document.createElement('div');
+                row.style.cssText = "display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 12px; margin-bottom: 8px; border-radius: 5px; border: 1px solid #eee;";
+                row.innerHTML = `<span style="font-size: 14px; word-break: break-all; padding-right: 10px;">🔹 <strong>${stavka.ime}</strong></span>`;
+
+                const gumb = document.createElement('button');
+                gumb.style.cssText = "background: #3498db; color: white; border: none; padding: 6px 15px; border-radius: 3px; cursor: pointer; font-weight: bold; font-size: 14px;";
+                gumb.innerText = "Download";
+                gumb.onclick = () => preuzmiBlob(stavka.blob, stavka.ime);
+
+                row.appendChild(gumb);
+                outputArea.appendChild(row);
+            });
+        } else {
+            statusDiv.innerHTML = "<span style='color: #e74c3c;'>❌ No matching file names found.</span>";
         }
-        
-        outputArea.innerHTML += `<h3>📄 Individual Downloads</h3>`;
-        const listDiv = document.createElement('div');
-        listDiv.className = "list-container";
-        
-        rezultati.forEach(stavka => {
-            const row = document.createElement('div');
-            row.className = "item-row";
-            
-            const tekstSpan = document.createElement('span');
-            tekstSpan.className = 'item-name';
-            tekstSpan.innerHTML = `🔹 <strong>${stavka.ime}</strong>`;
-            
-            const gumbZaPreuzimanje = document.createElement('button');
-            gumbZaPreuzimanje.className = 'download-btn';
-            gumbZaPreuzimanje.innerText = 'Download';
-            gumbZaPreuzimanje.onclick = () => {
-                preuzmiBlob(stavka.blob, stavka.ime);
-            };
-            
-            row.appendChild(tekstSpan);
-            row.appendChild(gumbZaPreuzimanje);
-            listDiv.appendChild(row);
-        });
-        
-        outputArea.appendChild(listDiv);
-    } else {
-        statusDiv.innerHTML = "<span style='color: #e74c3c;'>❌ No matching file names found in the database.</span>";
-    }
+    });
 });
 </script>
-
 </body>
 </html>
