@@ -5,32 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Script Name Converter</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #f4f4f9; color: #333; }
-        .box { border: 2px dashed #007bff; padding: 30px; background: white; border-radius: 8px; margin-top: 20px; }
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #121214; color: #e1e1e6; }
+        .box { border: 2px dashed #007bff; padding: 30px; background: #1a1a1e; border-radius: 8px; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         input[type="file"] { display: none; }
-        .gumb { background: #007bff; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer; display: inline-block; margin-top: 10px; font-weight: bold; border: none; }
+        .gumb { background: #007bff; color: white; padding: 12px 24px; border-radius: 5px; cursor: pointer; display: inline-block; margin-top: 10px; font-weight: bold; border: none; transition: background 0.2s; }
         .gumb:hover { background: #0056b3; }
-        #poruka-baza { margin-top: 15px; font-weight: bold; }
-        #lista-za-skidanje { margin-top: 25px; text-align: left; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; display: none; }
-        .stavka { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        #poruka-baza { margin-top: 15px; font-weight: bold; color: #a1a1aa; }
+        #lista-za-skidanje { margin-top: 25px; text-align: left; background: #1a1a1e; padding: 15px; border-radius: 8px; border: 1px solid #29292e; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .stavka { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #29292e; }
         .stavka:last-child { border-bottom: none; }
-        .ime-skripte { font-size: 14px; color: #555; word-break: break-all; padding-right: 10px; }
-        .gumb-skini { background: #28a745; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; }
-        .gumb-skini:hover { background: #218838; }
-        .greska-tekst { color: #dc3545; font-size: 13px; font-weight: bold; }
-        .napomena { background-color: #fff3cd; color: #856404; padding: 12px; border-radius: 5px; margin-bottom: 20px; font-size: 14px; border: 1px solid #ffeeba; }
+        .ime-skripte { font-size: 14px; color: #c4c4cc; word-break: break-all; padding-right: 10px; }
+        .gumb-skini { background: #24a148; color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; transition: background 0.2s; }
+        .gumb-skini:hover { background: #1b8136; }
+        .greska-tekst { color: #f85149; font-size: 13px; font-weight: bold; }
+        .napomena { background-color: #2c2512; color: #ffdb6e; padding: 14px; border-radius: 5px; margin-bottom: 25px; font-size: 14px; border: 1px solid #473b1d; text-align: left; line-height: 1.5; }
+        h2 { color: #ffffff; }
+        h4 { margin-top: 0; color: #007bff; }
     </style>
 </head>
 <body>
 
     <h2>Script File Converter (.txt to .funscript)</h2>
     
-    <!-- NOVA UOČLJIVA NAPOMENA ZA KUPCE -->
     <div class="napomena">
         <strong>Important Notice:</strong> Once you upload your .txt files, they will be automatically renamed to their <strong>original, full product names</strong> with the proper <strong>.funscript</strong> extension for download.
     </div>
 
-    <p>Select one or more purchased .txt files. After processing, your download links will appear below.</p>
+    <p style="color: #a1a1aa;">Select one or more purchased .txt files. After processing, your download links will appear below.</p>
 
     <div class="box">
         <label for="file-upload" class="gumb">Select .txt Files</label>
@@ -39,7 +40,7 @@
     </div>
 
     <div id="lista-za-skidanje">
-        <h4 style="margin-top: 0; color: #007bff;">Your files are ready for download:</h4>
+        <h4>Your files are ready for download:</h4>
         <div id="kontejner-za-stavke"></div>
     </div>
 
@@ -57,9 +58,10 @@
                     popisBaza[kljuc.toUpperCase().trim()] = podaci[kljuc].trim();
                 }
                 document.getElementById('poruka-baza').innerText = "Database loaded successfully. Ready to convert.";
+                document.getElementById('poruka-baza').style.color = "#24a148"; // Zelena boja za "Uspješno"
             } catch (error) {
                 console.error(error);
-                document.getElementById('poruka-baza').innerHTML = "<span style='color:red;'>Error loading database! Please refresh the page.</span>";
+                document.getElementById('poruka-baza').innerHTML = "<span style='color:#f85149;'>Error loading database! Please refresh the page.</span>";
             }
         }
 
@@ -92,12 +94,12 @@
                     const url = URL.createObjectURL(blob);
 
                     stavkaDiv.innerHTML = `
-                        <div class="ime-skripte"><strong>${staroImeSaEkstenzijom}</strong> &rarr; ${novoIme}</div>
-                        <a href="${url}" download="${novoIme}" class="gumb-skini">Download .funscript</a>
+                        <div class="ime-skripte"><strong>${staroImeSaEkstenzijom}</strong> &rarr; <span style="color: #fff; font-weight: 500;">${novoIme}</span></div>
+                        <a href="${url}" download="${novoIme}" class="gumb-skini">Download</a>
                     `;
                 } else {
                     stavkaDiv.innerHTML = `
-                        <div class="ime-skripte" style="color: #888;">${staroImeSaEkstenzijom}</div>
+                        <div class="ime-skripte" style="color: #6e6e73;">${staroImeSaEkstenzijom}</div>
                         <div class="greska-tekst">✗ Code '${kljuc}' not found</div>
                     `;
                 }
