@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="hr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konverter Skripti</title>
+    <title>Script Name Converter</title>
     <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #f4f4f9; color: #333; }
         .box { border: 2px dashed #007bff; padding: 30px; background: white; border-radius: 8px; margin-top: 20px; }
@@ -22,17 +22,17 @@
 </head>
 <body>
 
-    <h2>Konverter (.txt u .funscript)</h2>
-    <p>Odaberite jednu ili više kupljenih .txt datoteka. Nakon obrade, ispod će se pojaviti gumbi za preuzimanje svake datoteke.</p>
+    <h2>Script File Converter (.txt to .funscript)</h2>
+    <p>Select one or more purchased .txt files. After processing, your download links will appear below.</p>
 
     <div class="box">
-        <label for="file-upload" class="gumb">Odaberi .txt datoteke</label>
+        <label for="file-upload" class="gumb">Select .txt Files</label>
         <input id="file-upload" type="file" accept=".txt" multiple />
-        <div id="poruka-baza">Povezujem se s bazom podataka...</div>
+        <div id="poruka-baza">Connecting to the database...</div>
     </div>
 
     <div id="lista-za-skidanje">
-        <h4 style="margin-top: 0; color: #007bff;">Vaše datoteke spremne za preuzimanje:</h4>
+        <h4 style="margin-top: 0; color: #007bff;">Your files are ready for download:</h4>
         <div id="kontejner-za-stavke"></div>
     </div>
 
@@ -43,16 +43,16 @@
         async function ucitajPopis() {
             try {
                 const response = await fetch(bazaUrl);
-                if (!response.ok) throw new Error("Problem s mrežom");
+                if (!response.ok) throw new Error("Network issue");
                 const podaci = await response.json();
                 
                 for (let kljuc in podaci) {
                     popisBaza[kljuc.toUpperCase().trim()] = podaci[kljuc].trim();
                 }
-                document.getElementById('poruka-baza').innerText = "Baza proizvoda je spremna. Učitajte datoteke.";
+                document.getElementById('poruka-baza').innerText = "Database loaded successfully. Ready to convert.";
             } catch (error) {
                 console.error(error);
-                document.getElementById('poruka-baza').innerHTML = "<span style='color:red;'>Greška pri učitavanju baze! Osvježite stranicu.</span>";
+                document.getElementById('poruka-baza').innerHTML = "<span style='color:red;'>Error loading database! Please refresh the page.</span>";
             }
         }
 
@@ -86,12 +86,12 @@
 
                     stavkaDiv.innerHTML = `
                         <div class="ime-skripte"><strong>${staroImeSaEkstenzijom}</strong> &rarr; ${novoIme}</div>
-                        <a href="${url}" download="${novoIme}" class="gumb-skini">Preuzmi .funscript</a>
+                        <a href="${url}" download="${novoIme}" class="gumb-skini">Download .funscript</a>
                     `;
                 } else {
                     stavkaDiv.innerHTML = `
                         <div class="ime-skripte" style="color: #888;">${staroImeSaEkstenzijom}</div>
-                        <div class="greska-tekst">✗ Kod '${kljuc}' nije u bazi</div>
+                        <div class="greska-tekst">✗ Code '${kljuc}' not found</div>
                     `;
                 }
 
@@ -99,7 +99,6 @@
             }
         });
 
-        // Pomoćna funkcija za čitanje
         function procitajDatotekuKaoTekst(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
