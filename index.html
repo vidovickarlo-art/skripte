@@ -1,16 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funscript Extractor & Renamer</title>
-    <!-- Službeni motor za ZIP -->
-    <script src="https://jsdelivr.net"></script>
+    <title>Konverter Skripti</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #f4f4f9; color: #333; }
+        .box { border: 2px dashed #007bff; padding: 30px; background: white; border-radius: 8px; margin-top: 20px; }
+        input[type="file"] { display: none; }
+        .gumb { background: #007bff; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer; display: inline-block; margin-top: 10px; font-weight: bold; border: none; }
+        .gumb:hover { background: #0056b3; }
+        #poruka-baza { margin-top: 15px; font-weight: bold; }
+        #lista-za-skidanje { margin-top: 25px; text-align: left; background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; display: none; }
+        .stavka { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .stavka:last-child { border-bottom: none; }
+        .ime-skripte { font-size: 14px; color: #555; word-break: break-all; padding-right: 10px; }
+        .gumb-skini { background: #28a745; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; }
+        .gumb-skini:hover { background: #218838; }
+        .greska-tekst { color: #dc3545; font-size: 13px; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <!-- Ovaj dio će u milisekundi povući cijeli ispravan program na tvoj web -->
-    <div id="app-container"></div>
-    <script src="https://jsdelivr.net"></script>
+
+    <h2>Konverter (.txt u .funscript)</h2>
+    <p>Odaberite jednu ili više kupljenih .txt datoteka. Nakon obrade, ispod će se pojaviti gumbi za preuzimanje svake datoteke.</p>
+
+    <div class="box">
+        <label for="file-upload" class="gumb">Odaberi .txt datoteke</label>
+        <input id="file-upload" type="file" accept=".txt" multiple />
+        <div id="poruka-baza">Povezujem se s bazom podataka...</div>
+    </div>
+
+    <div id="lista-za-skidanje">
+        <h4 style="margin-top: 0; color: #007bff;">Vaše datoteke spremne za preuzimanje:</h4>
+        <div id="kontejner-za-stavke"></div>
+    </div>
+
+    <script>
+        const bazaUrl = "https://api.npoint.io/773d3e2aa9b7d806b0b6"; 
+        let popisBaza = {};
+
+        async function ucitajPopis() {
+            try {
+                const response = await fetch(bazaUrl);
+                if (!response.ok) throw new Error("Problem s mrežom");
+                const podaci = await response.json();
+                
+                for (let kljuc in podaci) {
+                    popisBaza[kljuc.toUpperCase().trim()] = podaci[kljuc].trim();
+                }
+                document.getElementById('poruka-baza').innerText = "Baza proizvoda je spremna. Učitajte datoteke.";
+            } catch (error) {
+                console.error(error);
+                document.getElementById('poruka-baza').innerHTML = "<span style='color:red;'>Greška pri učitavanju baze! Osvježite stranicu.</span>";
+            }
+        }
+
+        ucitajPopis();
+
+        document.getElementById('file-upload').addEventListener('change', async function(e) {
+            const files = e.target.files;
+            if (!files || files.length === 0) return;
+
+            const listaDiv = document.getElementById('lista-za-skidanje');
+            const kontejner = document.getElementById('kontejner-za-stavke');
+            
+            kontejner.innerHTML = "";
+            listaDiv.style.display = "block";
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const staroImeSaEkstenzijom = file.name;
+                const staroIme = staroImeSaEkstenzijom.substring(0, staroImeSaEkstenzijom.lastIndexOf('.')) || staroImeSaEkstenzijom;
+                
+                const kljuc = staroIme.toUpperCase().trim();
+                const stavkaDiv = document.createElement('div');
+                stavkaDiv.className = "stavka";
+
+                if (popisBaza[kljuc]) {
+                    const novoIme = popisBaza[kljuc] + ".funscript";
+                    const tekst = await procitajDatotekuKaoTekst(file);
+                    
+                    const blob = new Blob([tekst], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+
+                    stavkaDiv.innerHTML = `
+                        <div class="ime-skripte"><strong>${staroImeSaEkstenzijom}</strong> &rarr; ${novoIme}</div>
+                        <a href="${url}" download="${novoIme}" class="gumb-skini">Preuzmi .funscript</a>
+                    `;
+                } else {
+                    stavkaDiv.innerHTML = `
+                        <div class="ime-skripte" style="color: #888;">${staroImeSaEkstenzijom}</div>
+                        <div class="greska-tekst">✗ Kod '${kljuc}' nije u bazi</div>
+                    `;
+                }
+
+                kontejner.appendChild(stavkaDiv);
+            }
+        });
+
+        // Pomoćna funkcija za čitanje
+        function procitajDatotekuKaoTekst(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(e);
+                reader.readAsText(file);
+            });
+        }
+    </script>
 </body>
 </html>
-
