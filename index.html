@@ -61,7 +61,6 @@
                 video: podaci[kljuc].video ? podaci[kljuc].video.trim() : ""
             };
         }
-        
         document.getElementById('poruka-baza').innerText = "Database loaded successfully. Ready to convert.";
         document.getElementById('poruka-baza').style.color = "#24a148"; // Zelena boja za "Uspješno"
     } catch (error) {
@@ -136,10 +135,8 @@
                 <div class="greska-tekst">X Code '${kljuc}' not found</div>
             `;
         }
-
         kontejner.appendChild(stavkaDiv);
     }
-
 
         function procitajDatotekuKaoTekst(file) {
             return new Promise((resolve, reject) => {
