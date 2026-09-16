@@ -48,23 +48,27 @@
        const bazaUrl = "./baza.json?t=" + new Date().getTime();
         let popisBaza = {};
 
-        async function ucitajPopis() {
-            try {
-                const response = await fetch(bazaUrl);
-                if (!response.ok) throw new Error("Network issue");
-                const podaci = await response.json();
-                
-                for (let kljuc in podaci) {
-                    popisBaza[kljuc.toUpperCase().trim()] = podaci[kljuc].trim();
-                }
-                document.getElementById('poruka-baza').innerText = "Database loaded successfully. Ready to convert.";
-                document.getElementById('poruka-baza').style.color = "#24a148"; // Zelena boja za "Uspješno"
-            } catch (error) {
-                console.error(error);
-                document.getElementById('poruka-baza').innerHTML = "<span style='color:#f85149;'>Error loading database! Please refresh the page.</span>";
-            }
-        }
+       async function ucitajPopis() {
+    try {
+        const response = await fetch(bazaUrl);
+        if (!response.ok) throw new Error("Network issue");
+        const podaci = await response.json();
 
+        // Čistimo i prepisujemo novu strukturu baze u popisBaza
+        for (let kljuc in podaci) {
+            popisBaza[kljuc.toUpperCase().trim()] = {
+                ime: podaci[kljuc].ime ? podaci[kljuc].ime.trim() : "",
+                video: podaci[kljuc].video ? podaci[kljuc].video.trim() : ""
+            };
+        }
+        
+        document.getElementById('poruka-baza').innerText = "Database loaded successfully. Ready to convert.";
+        document.getElementById('poruka-baza').style.color = "#24a148"; // Zelena boja za "Uspješno"
+    } catch (error) {
+        console.error(error);
+        document.getElementById('poruka-baza').innerHTML = "<span style='color:#f85149;'>Error loading database! Please refresh the page.</span>";
+    }
+}
         ucitajPopis();
 
         document.getElementById('file-upload').addEventListener('change', async function(e) {
