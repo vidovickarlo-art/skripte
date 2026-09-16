@@ -3,149 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Script Name Converter</title>
+    <title>Script File Converter</title>
     <style>
-        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; background-color: #121214; color: #e1e1e6; }
-        .box { border: 2px dashed #007bff; padding: 30px; background: #1a1a1e; border-radius: 8px; margin-top: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        input[type="file"] { display: none; }
-        .gumb { background: #007bff; color: white; padding: 12px 24px; border-radius: 5px; cursor: pointer; display: inline-block; margin-top: 10px; font-weight: bold; border: none; transition: background 0.2s; }
-        .gumb:hover { background: #0056b3; }
-        #poruka-baza { margin-top: 15px; font-weight: bold; color: #a1a1aa; }
-        #lista-za-skidanje { margin-top: 25px; text-align: left; background: #1a1a1e; padding: 15px; border-radius: 8px; border: 1px solid #29292e; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
-        .stavka { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #29292e; }
-        .stavka:last-child { border-bottom: none; }
-        .ime-skripte { font-size: 14px; color: #c4c4cc; word-break: break-all; padding-right: 10px; }
-        .gumb-skini { background: #24a148; color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-size: 13px; font-weight: bold; transition: background 0.2s; }
-        .gumb-skini:hover { background: #1b8136; }
-        .greska-tekst { color: #f85149; font-size: 13px; font-weight: bold; }
-        .napomena { background-color: #2c2512; color: #ffdb6e; padding: 14px; border-radius: 5px; margin-bottom: 25px; font-size: 14px; border: 1px solid #473b1d; text-align: left; line-height: 1.5; }
-        h2 { color: #ffffff; }
-        h4 { margin-top: 0; color: #007bff; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .kontejner {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+            color: #fff;
+        }
+        .napomena {
+            background-color: rgba(255, 193, 7, 0.1);
+            border: 1px solid #ffc107;
+            color: #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 25px;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .okvir-za-izbor {
+            border: 2px dashed #007bff;
+            padding: 40px 20px;
+            border-radius: 5px;
+            background-color: rgba(0, 123, 255, 0.05);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .okvir-za-izbor:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+        .gumb-izaberi {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #file-upload {
+            display: none;
+        }
+        #poruka-baza {
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #aaa;
+        }
+        #lista-za-skidanje {
+            margin-top: 25px;
+            width: 100%;
+            text-align: left;
+        }
+        .stavka {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border-left: 5px solid #24a148;
+            display: flex;
+            flex-direction: column;
+        }
+        .stavka.greska {
+            border-left: 5px solid #f85149;
+        }
+        .ime-skripte {
+            font-size: 14px;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        .gumbi-kontejner {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .gumb-skini {
+            display: inline-block;
+            background-color: #24a148;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+        }
+        .gumb-skini:hover {
+            background-color: #1c7c37;
+        }
+        .gumb-video {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+        }
+        .gumb-video:hover {
+            background-color: #0056b3;
+        }
+        .greska-tekst {
+            color: #f85149;
+            font-weight: bold;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 
-    <h2>Script File Converter (.txt to .funscript)</h2>
+<div class="kontejner" id="kontejner-za-stavke">
+    <h1>Script File Converter (.txt to .funscript)</h1>
     
     <div class="napomena">
-        <strong>Important Notice:</strong> Once you upload your .txt files, they will be automatically renamed to their <strong>original, full product names</strong> with the proper <strong>.funscript</strong> extension for download.
+        <strong>Important Notice:</strong> Once you upload your .txt files, they will be automatically renamed to their original, full product names with the proper .funscript extension for download.
     </div>
 
-    <p style="color: #a1a1aa;">Select one or more purchased .txt files. After processing, your download links will appear below.</p>
-
-    <div class="box">
-        <label for="file-upload" class="gumb">Select .txt Files</label>
-        <input id="file-upload" type="file" accept=".txt" multiple />
+    <div class="okvir-za-izbor" onclick="document.getElementById('file-upload').click()">
+        <button class="gumb-izaberi">Select .txt Files</button>
+        <input type="file" id="file-upload" multiple accept=".txt">
         <div id="poruka-baza">Connecting to the database...</div>
     </div>
 
-    <div id="lista-za-skidanje">
-        <h4>Your files are ready for download:</h4>
-        <div id="kontejner-za-stavke"></div>
-    </div>
+    <div id="lista-za-skidanje"></div>
+</div>
 
-    <script>
-       const bazaUrl = "./baza.json?t=" + new Date().getTime();
-        let popisBaza = {};
+<script>
+    const bazaUrl = "./baza.json?t=" + new Date().getTime();
+    let popisBaza = {};
 
-       async function ucitajPopis() {
-    try {
-        const response = await fetch(bazaUrl);
-        if (!response.ok) throw new Error("Network issue");
-        const podaci = await response.json();
+    async function ucitajPopis() {
+        try {
+            const response = await fetch(bazaUrl);
+            if (!response.ok) throw new Error("Network issue");
+            const podaci = await response.json();
 
-        // Čistimo i prepisujemo novu strukturu baze u popisBaza
-        for (let kljuc in podaci) {
-            popisBaza[kljuc.toUpperCase().trim()] = {
-                ime: podaci[kljuc].ime ? podaci[kljuc].ime.trim() : "",
-                video: podaci[kljuc].video ? podaci[kljuc].video.trim() : ""
-            };
+            for (let kljuc in podaci) {
+                popisBaza[kljuc.toUpperCase().trim()] = {
+                    ime: podaci[kljuc].ime ? podaci[kljuc].ime.trim() : "",
+                    video: podaci[kljuc].video ? podaci[kljuc].video.trim() : ""
+                };
+            }
+            
+            document.getElementById('poruka-baza').innerText = "Database loaded successfully. Ready to convert.";
+            document.getElementById('poruka-baza').style.color = "#24a148";
+        } catch (error) {
+            console.error(error);
+            document.getElementById('poruka-baza').innerHTML = "<span style='color:#f85149;'>Error loading database! Please refresh the page.</span>";
         }
-        document.getElementById('poruka-baza').innerText = "Database loaded successfully. Ready to convert.";
-        document.getElementById('poruka-baza').style.color = "#24a148"; // Zelena boja za "Uspješno"
-    } catch (error) {
-        console.error(error);
-        document.getElementById('poruka-baza').innerHTML = "<span style='color:#f85149;'>Error loading database! Please refresh the page.</span>";
-    }
-}
-        ucitajPopis();
-
-        document.getElementById('file-upload').addEventListener('change', async function(e) {
-            const files = e.target.files;
-            if (!files || files.length === 0) return;
-
-            const listaDiv = document.getElementById('lista-za-skidanje');
-            const kontejner = document.getElementById('kontejner-za-stavke');
-            
-            kontejner.innerHTML = "";
-            listaDiv.style.display = "block";
-
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const staroImeSaEkstenzijom = file.name;
-                const staroIme = staroImeSaEkstenzijom.substring(0, staroImeSaEkstenzijom.lastIndexOf('.')) || staroImeSaEkstenzijom;
-                
-                const kljuc = staroIme.toUpperCase().trim();
-                const stavkaDiv = document.createElement('div');
-                stavkaDiv.className = "stavka";
-
-                if (popisBaza[kljuc]) {
-            const podaciSkripte = popisBaza[kljuc];
-            
-            // Izvlačimo ime i video link iz našeg novog JSON objekta
-            const samoIme = podaciSkripte.ime;
-            const videoLink = podaciSkripte.video;
-            
-            const novoIme = samoIme + ".funscript";
-            const tekst = await procitajDatotekuKaoTekst(file);
-            
-            const blob = new Blob([tekst], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            
-            // Stvaramo HTML za zeleni gumb za download skripte
-            stavkaDiv.innerHTML = `
-                <div class="ime-skripte"><strong>${staroImeSaEkstenzijom}</strong> &rarr; <span style="color: #fff; font-weight: 500;">${novoIme}</span></div>
-                <a href="${url}" download="${novoIme}" class="gumb-skini">Download</a>
-            `;
-            
-            // NOVI DIO: Ako za ovu skriptu postoji video link u bazi, stvaramo plavi gumb odmah ispod
-            if (videoLink && videoLink !== "" && !videoLink.includes("Ovdje_zalijepi")) {
-                const gumbVideo = document.createElement("a");
-                gumbVideo.href = videoLink;
-                gumbVideo.target = "_blank"; // Otvara video u novoj kartici preglednika
-                gumbVideo.innerHTML = "📺 Pogledaj Video";
-                
-                // Dodajemo mu stilove da izgleda moderno i plavo
-                gumbVideo.style.display = "inline-block";
-                gumbVideo.style.marginTop = "8px";
-                gumbVideo.style.marginLeft = "10px";
-                gumbVideo.style.padding = "10px 20px";
-                gumbVideo.style.backgroundColor = "#007bff";
-                gumbVideo.style.color = "#ffffff";
-                gumbVideo.style.textDecoration = "none";
-                gumbVideo.style.borderRadius = "5px";
-                gumbVideo.style.fontWeight = "bold";
-                gumbVideo.style.fontSize = "14px";
-                
-                // Dodajemo ovaj plavi gumb unutar iste stavke gdje je i Download gumb
-                stavkaDiv.appendChild(gumbVideo);
-             } else {
-            stavkaDiv.innerHTML = `
-                <div class="ime-skripte" style="color: #6e6e73;">${staroImeSaEkstenzijom}</div>
-                <div class="greska-tekst">X Code '${kljuc}' not found</div>
-            `;
-        }
-        kontejner.appendChild(stavkaDiv);
     }
 
-        function procitajDatotekuKaoTekst(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = e => resolve(e.target.result);
-                reader.onerror = e => reject(e);
-                reader.readAsText(file);
-            });
+    ucitajPopis();
+
+    document.getElementById('file-upload').addEventListener('change', async function(e) {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
+
+        const listaDiv = document.getElementById('lista-za-skidanje');
+        listaDiv.innerHTML = '';
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const staroImeSaEkstenzijom = file.name;
+            const staroIme = staroImeSaEkstenzijom.substring(0, staroImeSaEkstenzijom.lastIndexOf('.')) || staroImeSaEkstenzijom;
+            
+            const kljuc = staroIme.toUpperCase().trim();
+            const stavkaDiv = document.createElement('div');
+            stavkaDiv.className = "stavka";
+
+            if (popisBaza[kljuc]) {
+                const podaciSkripte = popisBaza[kljuc];
+                const samoIme = podaciSkripte.ime;
+                const videoLink = podaciSkripte.video;
+                
+                const novoIme = samoIme + ".funscript";
+                const tekst = await procitajDatotekuKaoTekst(file);
+                
+                const blob = new Blob([tekst], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                
+                let htmlSadrzaj = `
+                    <div class="ime-skripte"><strong>${staroImeSaEkstenzijom}</strong> &rarr; <span style="color: #fff; font-weight: 500;">${novoIme}</span></div>
+                    <div class="gumbi-kontejner">
+                        <a href="${url}" download="${novoIme}" class="gumb-skini">Download</a>
+                `;
+
+                if (videoLink && videoLink !== "" && !videoLink.includes("Ovdje_zalijepi")) {
+                    htmlSadrzaj += `<a href="${videoLink}" target="_blank" class="gumb-video">📺 Pogledaj Video</a>`;
+                }
+
+                htmlSadrzaj += `</div>`;
+                stavkaDiv.innerHTML = htmlSadrzaj;
+
+            } else {
+                stavkaDiv.className = "stavka greska";
+                stavkaDiv.innerHTML = `
+                    <div class="ime-skripte" style="color: #6e6e73;">${staroImeSaEkstenzijom}</div>
+                    <div class="greska-tekst">X Code '${kljuc}' not found</div>
+                `;
+            }
+
+            listaDiv.appendChild(stavkaDiv);
         }
-    </script>
+    });
+
+    function procitajDatotekuKaoTekst(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = e => resolve(e.target.result);
+            reader.onerror = e => reject(e);
+            reader.readAsText(file);
+        });
+    }
+</script>
+
 </body>
 </html>
