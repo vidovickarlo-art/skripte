@@ -202,7 +202,8 @@
                 const novoIme = samoIme + ".funscript";
                 const tekst = await procitajDatotekuKaoTekst(file);
                 
-                const blob = new Blob([tekst], { type: 'text/plain' });
+                // UKLONJEN 'text/plain' I POSTAVLJEN 'application/octet-stream' ZA MOBITELE
+                const blob = new Blob([tekst], { type: 'application/octet-stream' });
                 const url = URL.createObjectURL(blob);
                 
                 let htmlSadrzaj = `
